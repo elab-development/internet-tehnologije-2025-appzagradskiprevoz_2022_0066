@@ -39,3 +39,14 @@ class FavoriteLine(models.Model):
 
     def __str__(self):
         return f"(self.user.username) - {self.line.name}"
+
+class TrafficNotice(models.Model):
+    line = models.ForeignKey(Line, on_delete=models.CASCADE, related_name="notices")
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    is_active = models.BooleanField(default= True)
+
+    def __str__(self):
+        return f"(self.line.name) - {self.title}"

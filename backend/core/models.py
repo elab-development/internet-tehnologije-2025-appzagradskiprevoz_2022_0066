@@ -23,11 +23,18 @@ class LineStop(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     order = models.IntegerField()
 
+    class Meta:
+        constraints=[
+            models.UniqueConstraint(fields=["line", "order"], name = "unique_order_per_line"),
+            models.UniqueConstraint(fields=["line", "station"], name = "unique_station_per_line"),
+        ]
+
     def __str__(self):
         return f"(self.line.name) = {self.station.name}"
     
 class Departure(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
+    station = models.ForeignKey(Station, on_delete=models.CASCADE, null=True, blank=True)
     time = models.TimeField()
     is_weekend = models.BooleanField(default=False)
 

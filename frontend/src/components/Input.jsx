@@ -1,19 +1,8 @@
-export default function Input({label, type="text", value, onChange, placeholder}) {
-    return (
-        <div style = {{ marginBottom: 12}}>
-            <label style = {{display:"block", marginBottom: 6}}>{label}</label>
-            <input
-                type = {type}
-                value = {value}
-                onChange = {onChange}
-                placeholder = {placeholder}
-                style = {{
-                    padding: 10,
-                    width: "100%",
-                    borderRadius: 10,
-                    border: "1px solid #ccc",
-                }}
-            />
-        </div>
-    );
+export default function Input({ label, ...props }) {
+  return (
+    <div style={{ marginBottom: 12 }}>
+      {label && <label style={{ display: "block", marginBottom: 6 }}>{label}</label>}
+      <input {...props} style={{ width: "100%" }} />
+    </div>
+  );
 }

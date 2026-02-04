@@ -7,7 +7,7 @@ export default function Home(){
     const [to, setTo] = useState("");
 
     function handleSearch(){
-        alert('Trazicemo rutu: ${from} -> ${to}');
+        alert(`Trazicemo rutu: ${from} -> ${to}`);
     }
 
     return (

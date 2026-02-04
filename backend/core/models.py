@@ -30,7 +30,7 @@ class LineStop(models.Model):
         ]
 
     def __str__(self):
-        return f"(self.line.name) = {self.station.name}"
+        return f"(self.line.name) - {self.station.name}"
     
 class Departure(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
@@ -39,7 +39,7 @@ class Departure(models.Model):
     is_weekend = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"(self.line.name) = {self.time}"
+        return f"(self.line.name) - {self.time}"
     
 class FavoriteLine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

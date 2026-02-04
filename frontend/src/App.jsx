@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
+import {Routes, Route, Navigate} from "react-router-dom";
+import Navbar from "./components/Navbar"
+import Home from "./pages/Home";
+import Lines from "./pages/Lines";
+import Login from "./pages/Login";
 
 export default function App() {
-  const [lines, setLines] = useState([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/lines/")
-      .then((res) => {
-        if (!res.ok) throw new Error("Ne mogu da učitam linije (API error).");
-        return res.json();
-      })
-      .then((data) => setLines(data))
-      .catch((e) => setError(e.message));
-  }, []);
-
   return (
-    <div style={{ padding: 24, fontFamily: "Arial" }}>
-      <h1>Gradski prevoz</h1>
-      <h2>Linije</h2>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!error && lines.length === 0 ? (
-        <p>Nema linija u bazi.</p>
-      ) : (
-        <ul>
-          {lines.map((l) => (
-            <li key={l.id}>
-              <b>{l.name}</b> — {l.description} ({l.color})
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/lines" element={<Lines />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/" replace/>} />
+      </Routes>
+    </>
+  )
 }

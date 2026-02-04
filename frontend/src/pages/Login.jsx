@@ -5,7 +5,7 @@ import Button from "../components/Button";
 
 export default function Login() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = userState("");
+    const [password, setPassword] = useState("");
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
 

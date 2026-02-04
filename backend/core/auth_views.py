@@ -52,6 +52,6 @@ def logout(request):
     if request.method == "GET":
         return Response({"detail":"Send post to this endpoint to logout (token will be deleted)."}, status = status.HTTP_200_OK)
 
-    request.user.auth_token.delete()
+    Token.objects.filter(user=request.user).delete()
     django_logout(request)
     return Response({"message": "logged_out"}, status = status.HTTP_200_OK)

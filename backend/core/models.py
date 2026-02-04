@@ -30,7 +30,7 @@ class LineStop(models.Model):
         ]
 
     def __str__(self):
-        return f"(self.line.name) - {self.station.name}"
+        return f"{self.line.name} - {self.station.name}"
     
 class Departure(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
@@ -39,14 +39,14 @@ class Departure(models.Model):
     is_weekend = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"(self.line.name) - {self.time}"
+        return f"{self.line.name} - {self.time}"
     
 class FavoriteLine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"(self.user.username) - {self.line.name}"
+        return f"{self.user.username} - {self.line.name}"
 
 class TrafficNotice(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE, related_name="notices")
@@ -57,4 +57,4 @@ class TrafficNotice(models.Model):
     is_active = models.BooleanField(default= True)
 
     def __str__(self):
-        return f"(self.line.name) - {self.title}"
+        return f"{self.line.name} - {self.title}"

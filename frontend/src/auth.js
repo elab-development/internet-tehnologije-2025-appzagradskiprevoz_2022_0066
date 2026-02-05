@@ -1,36 +1,36 @@
-export function getToken(){
+export function getToken() {
     return localStorage.getItem("token");
 }
 
-export function getEmail(){
+export function getEmail() {
     return localStorage.getItem("email");
 }
 
-
-export function isLoggedIn(){
+export function isLoggedIn() {
     return !!getToken();
 }
 
-export function getAuth(){
+export function getAuth() {
     const token = getToken();
     const email = getEmail();
 
-    return{
+    return {
         isLoggedIn: isLoggedIn(),
         token: token || "",
         email: email || "",
     };
 }
 
-export async function logout(){
+export async function logout() {
     const token = getToken();
+
     if (token) {
-        try{
+        try {
             await fetch("http://127.0.0.1:8000/api/auth/logout/", {
                 method: "POST",
-                headers: {Authorization: `Token ${token}`},
+                headers: { Authorization: `Token ${token}` },
             });
-        } catch(e){}
+        } catch (e) { }
     }
 
     localStorage.removeItem("token");
@@ -39,40 +39,46 @@ export async function logout(){
 }
 
 export async function LoginUser(email, password) {
-    const res = await fetch("http://127.0.0.1:8000/api/auth/login/",{
-        method:"POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({email, password}),
+    const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
     });
-    
-    const data = await res.json();
+
+    const data = await res.json().catch(() => ({}));
 
     if (!res.ok) {
-        throw new Error (data.detail || "Neuspesan login!");
+        throw new Error(data.detail || "Neuspesan login!");
     }
 
     localStorage.setItem("token", data.token);
-    localStorage.setItem("email", data.email);
+    localStorage.setItem("email", data.email || email);
     window.dispatchEvent(new Event("auth"));
 
     return data;
 }
 
-export async function RegisterUser(username, email, password){
+export async function RegisterUser(email, password) {
     const res = await fetch("http://127.0.0.1:8000/api/auth/register/", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({username, email, password}),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
     });
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
 
-    if(!res.ok){
-        throw new Error("Neuspesna registracija!");
+    if (!res.ok) {
+        // prikazi backend poruku ako postoji
+        const msg =
+            data.detail ||
+            data.email?.[0] ||
+            data.password?.[0] ||
+            "Neuspesna registracija!";
+        throw new Error(msg);
     }
 
-    localStorage.setItem("token",data.token);
-    localStorage.setItem("email", email);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("email", data.email || email);
     window.dispatchEvent(new Event("auth"));
 
     return data;

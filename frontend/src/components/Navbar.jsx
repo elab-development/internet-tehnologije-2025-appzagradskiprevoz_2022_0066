@@ -54,14 +54,17 @@ export default function Navbar() {
                 {auth.isLoggedIn ? (
                     <Link className="nav-link" to="/stations">Stations</Link>
                 ) : (
-                    <Link className="nav-link" to="/login" state={{ from: { pathname: "/stations" } }} 
+                    <Link className="nav-link" to="/login" state={{ from: { pathname: "/stations" } }}
                         onClick={() => alert("Za pristup stranici morate biti ulogovani!")}>Stations</Link>
                 )}
             </div>
 
             <div className="nav-right">
                 {!auth.isLoggedIn ? (
-                    <Link className="nav-link" to="/login">Login</Link>
+                    <>
+                        <Link className="nav-link" to="/login">Login</Link>
+                        <Link className="nav-link" to="/register">Register</Link>
+                    </>
                 ) : (
                     <>
                         <div className="user-menu" ref={menuRef}>

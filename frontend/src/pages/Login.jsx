@@ -33,7 +33,7 @@ export default function Login() {
             <form className={styles.form} onSubmit={handleSubmit}>
                 <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Button type="submit">LOGIN</Button>
+                <Button classname={styles.btn} type="submit">LOGIN</Button>
             </form>
 
             {msg && <p className={styles.msg}>{msg}</p>}

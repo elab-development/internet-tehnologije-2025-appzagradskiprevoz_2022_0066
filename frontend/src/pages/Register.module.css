@@ -7,30 +7,32 @@
 
 .title {
     margin: 0 0 18px;
-    font-size: 28px;
+    font-size: 34px;
 
 }
 
 .form {
     display: grid;
-    gap: 14px;
+    gap: 16px;
     text-align: center;
 }
 
-.btn {
+.form input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.form button {
     width: 60%;
     margin: 10px auto 0;
     padding: 10px;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
-    background: #111;
-    color: white;
-    border: none;
-    transition: 0.2s;
 }
-
-.btn:hover {
+.form button:hover {
     color: #4c6fff;
 }
 

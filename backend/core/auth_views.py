@@ -8,6 +8,13 @@ from rest_framework.response import Response
 from .auth_serializers import RegisterSerializer
 from django.contrib.auth import logout as django_logout
 
+def role_for_user(user):
+    if not user or not user.is_authenticated:
+        return "guest"
+    if user.is_staff or user.is_superuser:
+        return "admin"
+    return "user"
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 
@@ -20,7 +27,7 @@ def register(request):
     token, _ = Token.objects.get_or_create(user = user)
 
     return Response(
-        {"message": "registered", "token": token.key, "username": user.username},
+        {"message": "registered", "token": token.key, "username": user.email},
         status = status.HTTP_201_CREATED,
     )
 

@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  max-width: 640px;
+  text-align: center;
+}
+
+.title {
+  font-size: 56px;
+  line-height: 1.05;
+  margin: 0 0 16px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  opacity: 0.9;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}

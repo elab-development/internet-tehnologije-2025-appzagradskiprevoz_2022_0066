@@ -24,10 +24,17 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  font-family: system-ui, Arial, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #111111 0%,
+    #1b1b2f 35%,
+    #2d1b3d 65%,
+    #3b1f5a 100%
+  );
+
+  color: #eaeaea;
 }
 
 h1 {

@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import styles from "./Lines.module.css";
 
 export default function Lines(){
     const [lines, setLines] = useState([]);
@@ -15,13 +16,13 @@ export default function Lines(){
     }, []);
 
     return(
-        <div style={{padding: 24}}>
-            <h2>Linije</h2>
-            {error && <p style={{color: "red"}}>{error}</p>}
+        <div className={styles.container}>
+            <h2 className={styles.title}>Linije</h2>
+            {error && <p className={styles.error}>{error}</p>}
             
-            <ul>
+            <ul className={styles.list}>
                 {lines.map((l) => (
-                    <li key={l.id}>
+                    <li key={l.id} className={styles.item}>
                         <b>{l.name}</b> - {l.description} {l.color}
                     </li>
                 ))}

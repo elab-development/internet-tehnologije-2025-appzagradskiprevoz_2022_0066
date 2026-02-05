@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "./Stations.module.css";
 
 export default function Stations(){
     const[stations, setStations] = useState([]);
@@ -15,15 +16,15 @@ export default function Stations(){
     }, []);
 
     return(
-        <div style={{padding: 24}}>
-            <h2>Stanice</h2>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Stanice</h2>
 
-            {!error && <p style={{color: "red"}}>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
 
             {!error && stations.length === 0 ? (
-                <p>Nema stanica u bazi!</p>
+                <p className={styles.empty}>Nema stanica u bazi!</p>
             ) : (
-                <ul>
+                <ul className={styles.list}>
                     {stations.map((s) => (
                         <li key={s.id}>
                             <b>{s.name}</b> - ({s.latitude}, {s.longitude})

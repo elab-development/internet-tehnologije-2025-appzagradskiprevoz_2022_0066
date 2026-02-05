@@ -34,8 +34,8 @@ export default function Navbar() {
     }, []);
 
 
-    function handleLogout() {
-        logout();
+    async function handleLogout() {
+        await logout();
         setAuth(getAuth());
         navigate("/");
     }

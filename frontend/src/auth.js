@@ -22,9 +22,20 @@ export function getAuth(){
     };
 }
 
-export function logout(){
+export async function logout(){
+    const token = getToken();
+    if (token) {
+        try{
+            await fetch("http://127.0.0.1:8000/api/auth/logout/", {
+                method: "POST",
+                headers: {Authorization: `Token ${token}`},
+            });
+        } catch(e){}
+    }
+
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    window.dispatchEvent(new Event("auth"));
 }
 
 export async function LoginUser(email, password) {
@@ -45,7 +56,24 @@ export async function LoginUser(email, password) {
     window.dispatchEvent(new Event("auth"));
 
     return data;
+}
 
+export async function RegisterUser(username, email, password){
+    const res = await fetch("http://127.0.0.1:8000/api/auth/register/", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({username, email, password}),
+    });
 
+    const data = await res.json();
 
+    if(!res.ok){
+        throw new Error("Neuspesna registracija!");
+    }
+
+    localStorage.setItem("token",data.token);
+    localStorage.setItem("email", email);
+    window.dispatchEvent(new Event("auth"));
+
+    return data;
 }

@@ -15,13 +15,21 @@ import { useLocation } from "react-router-dom";
 export default function App() {
 
   const location = useLocation();
-  const isLogin = location.pathname === "/login";
+  const path = location.pathname;
+
+  let pageClass = "page-card";
+
+  if (path === "/login") {
+    pageClass = "login-card";
+  } else if (path === "/lines") {
+    pageClass = "lines-card";
+  }
 
   return (
     <>
       <Navbar />
       <div className="page-shell">
-        <div className={isLogin ? "login-card" : "page-card"}>
+        <div className={pageClass}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/lines" element={<ProtectedRoute><Lines /></ProtectedRoute>} />

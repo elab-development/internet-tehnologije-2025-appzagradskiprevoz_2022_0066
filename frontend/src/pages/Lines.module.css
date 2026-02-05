@@ -1,26 +1,94 @@
 .container {
-  width: 100%;
-  max-width: 720px;
-  text-align: center;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  padding: 30px 16px;
+}
+
+.panel {
+  width: min(650px, 95vw);
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
 }
 
 .title {
-  margin: 0 0 14px;
-  font-size: 28px;
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 14px;
 }
 
-.error {
-  color: #ff6b6b;
-  margin: 8px 0 12px;
+.filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.input,
+.select {
+  height: 38px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #eaeaea;
+}
+
+.input {
+  width: min(360px, 80vw);
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: rgba(76, 111, 255, 0.8);
+}
+
+.clearBtn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(76, 111, 255, 0.7);
+  background: rgba(0, 0, 0, 0.15);
+  color: #eaeaea;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  color: #4c6fff;
 }
 
 .list {
-  margin: 0;
-  padding-left: 18px;
   display: grid;
   gap: 10px;
 }
 
-.item {
-  opacity: 0.95;
+.card {
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cardTitle {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.meta {
+  opacity: 0.85;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.empty {
+  text-align: center;
+  opacity: 0.8;
 }

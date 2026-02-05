@@ -17,6 +17,11 @@
     text-align: center;
 }
 
+.form input:focus{
+    outline: none;
+    border-color: #4c6fff;
+}
+
 .btn {
     width: 60%;
     margin: 10px auto 0;

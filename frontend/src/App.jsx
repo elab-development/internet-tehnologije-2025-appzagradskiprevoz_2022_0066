@@ -28,17 +28,24 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <div className="page-shell">
-        <div className={pageClass}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/lines" element={<ProtectedRoute><Lines /></ProtectedRoute>} />
-            <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+
+      {path === "/" ? (
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      ) : (
+        <div className="page-shell">
+          <div className={pageClass}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/lines" element={<ProtectedRoute><Lines /></ProtectedRoute>} />
+              <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

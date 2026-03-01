@@ -22,3 +22,28 @@
   gap: 14px;
   margin-top: 18px;
 }
+
+.mapWrap {
+  margin-top: 16px;
+}
+
+.routeInfo {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f6f7f900;
+}
+
+.error {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #ffecec;
+  color: #8a1f1f;
+}
+
+.note {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}

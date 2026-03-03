@@ -1,0 +1,68 @@
+.page {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+}
+
+.mapBg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.card {
+    position: absolute;
+    top: 80px;
+    /* prilagodi ako treba */
+    left: 20px;
+    width: min(400px, calc(100vw - 40px));
+    z-index: 10;
+    background: linear-gradient(135deg,
+            rgba(17, 17, 17, 0.92) 0%,
+            rgba(27, 27, 47, 0.92) 35%,
+            rgba(45, 27, 61, 0.92) 65%,
+            rgba(59, 31, 90, 0.92) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 22px;
+    color: white;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.title {
+    margin: 0 0 10px 0;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    margin: 0 0 16px 0;
+    text-align: center;
+    opacity: 0.85;
+}
+
+.form {
+    display: grid;
+    gap: 12px;
+}
+
+.result {
+    margin-top: 14px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.error {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 14px;
+    background: rgba(255, 0, 0, 0.15);
+    border: 1px solid rgba(255, 0, 0, 0.25);
+}

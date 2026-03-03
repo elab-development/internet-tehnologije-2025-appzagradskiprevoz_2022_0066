@@ -1,12 +1,18 @@
 .container {
   min-height: calc(100vh - 60px);
   display: flex;
-  justify-content: center;
+  gap: 30px;
   padding: 30px 16px;
+  align-items: flex-start;
+
+  max-width: 1600px;   /* ili 1400px */
+  margin: 0 auto;      /* centriraj ceo layout */
+  
 }
 
 .panel {
-  width: min(650px, 95vw);
+  width: 360px;
+  flex: 0 0 360px;
   background: rgba(0, 0, 0, 0.28);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
@@ -91,4 +97,16 @@
 .empty {
   text-align: center;
   opacity: 0.8;
+}
+
+.mapWrapper {
+  flex: 1;
+  min-width: 500px;   /* KLJUČNO: sprečava overflow u flex layoutu */
+}
+
+.mapBox {
+  height: 80vh;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
 }

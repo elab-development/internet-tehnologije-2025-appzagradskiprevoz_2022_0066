@@ -1,11 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "./Lines.module.css";
+import { fetchLineStops } from "../services/backend";
+import { getRouteThroughPoints } from "../services/routing";
+import RouteMap from "../components/RouteMap";
+
 
 export default function Lines() {
     const [lines, setLines] = useState([]);
+    const [stations, setStations] = useState([]);
+    const [route, setRoute] = useState(null);
     const [query, setQuery] = useState("");
     const [colorFilter, setColorFilter] = useState("all");
+    const [selectedColor, setSelectedColor] = useState("blue");
     const [error, setError] = useState("");
+
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/lines/")
@@ -33,6 +41,33 @@ export default function Lines() {
             return nameFilt && colorFilt;
         });
     }, [lines, query, colorFilter]);
+
+    async function handleSelectLine(line) {
+        setError("");
+        setRoute(null);
+        setStations([]);
+
+        try {
+            setSelectedColor(line.color || "blue");
+
+            const stops = await fetchLineStops(line.id);
+            if (!stops.length) throw new Error("Linija nema definisane stanice (LineStop).");
+
+            const pts = stops.map(s => ({
+                id: s.id,
+                name: s.name,
+                lat: s.latitude,
+                lon: s.longitude,
+            }));
+
+            setStations(pts);
+
+            const r = await getRouteThroughPoints(pts);
+            setRoute(r);
+        } catch (e) {
+            setError(e.message);
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -71,25 +106,45 @@ export default function Lines() {
                     </button>
                 </div>
 
+                {error && <div className={styles.error}>{error}</div>}
+
                 <div className={styles.list}>
                     {filteredLines.map((line) => (
-                        <div key={line.id} className={styles.card}>
+                        <div
+                            key={line.id}
+                            className={styles.card}
+                            onClick={() => handleSelectLine(line)}
+                            style={{ cursor: "pointer" }}
+                        >
                             <div className={styles.cardTitle}>{line.name}</div>
-                            {line.color && (
-                                <div className={styles.meta}>Boja: {line.color}</div>
-                            )}
+                            {line.color && <div className={styles.meta}>Boja: {line.color}</div>}
                             {line.description && (
                                 <div className={styles.meta}>{line.description}</div>
                             )}
+                            <div className={styles.meta}>
+                                <i>Click to view route</i>
+                            </div>
                         </div>
                     ))}
 
                     {filteredLines.length === 0 && (
-                        <p className={styles.empty}>
-                            Nema rezultata za unete filtere.
-                        </p>
+                        <p className={styles.empty}>No results found</p>
                     )}
                 </div>
+            </div>
+
+            {/* DESNO: MAPA */}
+            <div className={styles.mapWrapper}>
+                <div className={styles.mapBox}>
+                    <RouteMap routeGeoJson={route?.geojson} stations={stations} routeColor = {selectedColor} />
+                </div>
+
+                {route && (
+                    <div className={styles.routeMeta}>
+                        <b>Distanca:</b> {(route.distanceMeters / 1000).toFixed(2)} km &nbsp; | &nbsp;
+                        <b>Vreme:</b> {Math.round(route.durationSeconds / 60)} min
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 from .api import LineViewSet, StationViewSet
+from .views import plan_route
 from .auth_views import register, login, logout
 
 router = DefaultRouter()
@@ -15,8 +16,10 @@ urlpatterns = [
     path("auth/register/", register, name="register"),
     path("auth/login/", login, name="login"),
     path("auth/logout/", logout, name="logout"),
-    path("", views.api_root, name = "api-root"),
 
+    path("plan-route/", plan_route, name="plan-route"),
+
+    path("", views.api_root, name = "api-root"),
     path("", include(router.urls)), 
 ]
 

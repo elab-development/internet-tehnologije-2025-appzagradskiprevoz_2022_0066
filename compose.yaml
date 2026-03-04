@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: iteh_db
+      POSTGRES_USER: iteh_user
+      POSTGRES_PASSWORD: iteh_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  backend:
+    build: ./backend
+    environment:
+      DJANGO_DEBUG: "1"
+      DB_HOST: db
+      DB_NAME: iteh_db
+      DB_USER: iteh_user
+      DB_PASSWORD: iteh_pass
+      DB_PORT: "5432"
+      #za CORS (frontend u dockeru)
+      CORS_ALLOWED_ORIGINS: "http://localhost:5173"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: "http://localhost:8000"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:   

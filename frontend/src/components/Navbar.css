@@ -1,9 +1,23 @@
 .navbar {
+  position: relative;
+  z-index: 1000;
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 28px;
+  background: linear-gradient(
+    135deg,
+    #111111 0%,
+    #1b1b2f 35%,
+    #2d1b3d 65%,
+    #3b1f5a 100%
+  );
+  /* da bude “pun” a ne proziran */
+  opacity: 1;
+
+  /* malo “glass” efekta preko mape ako hoćeš */
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
 .nav-left {

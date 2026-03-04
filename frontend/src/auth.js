@@ -1,3 +1,6 @@
+import { API_BASE } from "../services/api";
+
+
 export function getToken() {
     return localStorage.getItem("token");
 }
@@ -26,7 +29,7 @@ export async function logout() {
 
     if (token) {
         try {
-            await fetch("http://127.0.0.1:8000/api/auth/logout/", {
+            await fetch(`${API_BASE}}/auth/logout/`, {
                 method: "POST",
                 headers: { Authorization: `Token ${token}` },
             });
@@ -39,7 +42,7 @@ export async function logout() {
 }
 
 export async function LoginUser(email, password) {
-    const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+    const res = await fetch(`${API_BASE}}/auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -59,7 +62,7 @@ export async function LoginUser(email, password) {
 }
 
 export async function RegisterUser(email, password) {
-    const res = await fetch("http://127.0.0.1:8000/api/auth/register/", {
+    const res = await fetch(`${API_BASE}}/auth/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

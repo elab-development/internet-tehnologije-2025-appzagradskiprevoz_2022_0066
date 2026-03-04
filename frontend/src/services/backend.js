@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000/api";
+import { API_BASE } from "./api";
 
 export async function fetchLineStops(lineId) {
   const res = await fetch(`${API_BASE}/lines/${lineId}/stops/`);

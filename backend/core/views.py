@@ -7,7 +7,7 @@ from math import radians, sin, cos, sqrt, atan2
 from collections import defaultdict
 import heapq
 
-from .models import Station, LineStop, Line
+from .models import Station, LineStop, Line, RouteHistory
 
 def health(request):
     return JsonResponse({"status": "ok"})
@@ -252,7 +252,27 @@ def plan_route(request):
             "to_station_id": b,
             "to_station_name": stations[b].name if b in stations else str(b),
         })
+        # === SAVE HISTORY (only for authenticated users) ===
+    if request.user.is_authenticated:
+        from_text = request.query_params.get("from_text", "")
+        to_text = request.query_params.get("to_text", "")
 
+        RouteHistory.objects.create(
+            user=request.user,
+            from_text=from_text,
+            to_text=to_text,
+            from_lat=from_lat,
+            from_lon=from_lon,
+            to_lat=to_lat,
+            to_lon=to_lon,
+        )
+
+        # keep only last 10 searches per user
+        qs = RouteHistory.objects.filter(user=request.user).order_by("-created_at")
+        ids_to_delete = list(qs.values_list("id", flat=True)[10:])
+        if ids_to_delete:
+            RouteHistory.objects.filter(id__in=ids_to_delete).delete()
+    
     return Response({
         "from_station": {"id": start_station.id, "name": start_station.name, "distance_m": round(d1)},
         "to_station": {"id": end_station.id, "name": end_station.name, "distance_m": round(d2)},

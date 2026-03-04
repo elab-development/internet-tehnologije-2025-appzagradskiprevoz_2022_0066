@@ -70,3 +70,22 @@ class TrafficNotice(models.Model):
 
     def __str__(self):
         return f"{self.line.name} - {self.title}"
+
+class RouteHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="route_history")
+
+    from_text = models.CharField(max_length=255)
+    to_text = models.CharField(max_length=255)
+
+    from_lat = models.FloatField()
+    from_lon = models.FloatField()
+    to_lat = models.FloatField()
+    to_lon = models.FloatField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user_id}: {self.from_text} -> {self.to_text}"

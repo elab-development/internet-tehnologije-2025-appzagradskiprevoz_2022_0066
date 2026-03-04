@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import RouteMap from "../components/RouteMap";
@@ -6,6 +6,8 @@ import { geocode } from "../services/geocoding";
 import { planRoute } from "../services/backend";
 import { getRouteThroughPoints } from "../services/routing";
 import styles from "./Home.overlay.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { createFavoriteRoute } from "../services/backend";
 
 function formatMinutes(seconds) {
   const min = Math.round(seconds / 60);
@@ -16,6 +18,9 @@ function formatKm(meters) {
 }
 
 export default function Home() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -28,6 +33,26 @@ export default function Home() {
   const [plan, setPlan] = useState(null);
   const [stations, setStations] = useState([]);
   const [route, setRoute] = useState(null);
+
+  const [favoriteName, setFavoriteName] = useState("");
+  const [savingFavorite, setSavingFavorite] = useState(false);
+
+  useEffect(() => {
+    const payload = location.state?.favoriteToLoad;
+    if (!payload) return;
+
+    setError("");
+
+    setFrom(payload.from_text || "");
+    setTo(payload.to_text || "");
+
+    setPlan(payload.plan || null);
+    setStations(payload.stations || []);
+    setRoute(payload.streetRoute || null);
+
+    navigate(location.pathname, { replace: true, state: {} });
+
+  }, [location.state, navigate]);
 
   async function handleSearch() {
     setError("");
@@ -63,6 +88,41 @@ export default function Home() {
     }
   }
 
+  async function handleSaveFavorite() {
+
+    if (!fromPoint || !toPoint) {
+      setError("Prvo pronađi rutu (polazište/destinacija).");
+      return;
+    }
+
+    if (!favoriteName.trim()) {
+      setError("Unesi naziv omiljene rute.");
+      return;
+    }
+
+    try {
+      setSavingFavorite(true);
+      setError("");
+
+      await createFavoriteRoute({
+        name: favoriteName.trim(),
+        from_text: from,
+        to_text: to,
+        from_lat: fromPoint.lat,
+        from_lon: fromPoint.lon,
+        to_lat: toPoint.lat,
+        to_lon: toPoint.lon,
+      });
+
+      setFavoriteName("");
+      alert("Ruta je sačuvana u omiljene.");
+    } catch (e) {
+      console.error(e);
+      setError("Greška pri čuvanju omiljene rute.");
+    } finally {
+      setSavingFavorite(false);
+    }
+  }
   return (
     <div className={styles.page}>
       <div className={styles.mapBg}>
@@ -131,6 +191,30 @@ export default function Home() {
             ) : (
               <div style={{ marginTop: 10 }}>
                 <b>Nema rute kroz mrežu stanica.</b>
+              </div>
+            )}
+
+            {/* Sačuvaj u omiljene (samo kad postoji plan) */}
+            {plan && (
+              <div className={styles.favoriteRow}>
+                <div className={styles.favoriteCol}>
+                  <label className={styles.favoriteLabel}>NAZIV OMILJENE RUTE</label>
+                  <input
+                    className={styles.favoriteInput}
+                    value={favoriteName}
+                    onChange={(e) => setFavoriteName(e.target.value)}
+                    placeholder='npr. "Kuća → FON"'
+                  />
+                </div>
+
+                <button
+                  className={styles.favoriteBtn}
+                  onClick={handleSaveFavorite}
+                  disabled={savingFavorite || !favoriteName.trim()}
+                  type="button"
+                >
+                  {savingFavorite ? "Čuvam..." : "Sačuvaj"}
+                </button>
               </div>
             )}
           </div>

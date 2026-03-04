@@ -16,3 +16,35 @@ export async function planRoute(from, to) {
   if (!res.ok) throw new Error("Ne mogu da dobijem plan rute.");
   return res.json();
 }
+
+export async function createFavoriteRoute(payload) {
+  const token = localStorage.getItem("token");
+  const res = await fetch("http://127.0.0.1:8000/api/favorite-routes/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error("Ne mogu da sačuvam omiljenu rutu.");
+  return res.json();
+}
+
+export async function listFavoriteRoutes() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("http://127.0.0.1:8000/api/favorite-routes/", {
+    headers: { Authorization: `Token ${token}` },
+  });
+  if (!res.ok) throw new Error("Ne mogu da učitam omiljene rute.");
+  return res.json();
+}
+
+export async function deleteFavoriteRoute(id) {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://127.0.0.1:8000/api/favorite-routes/${id}/`, {
+    method: "DELETE",
+    headers: { Authorization: `Token ${token}` },
+  });
+  if (!res.ok) throw new Error("Ne mogu da obrišem omiljenu rutu.");
+}

@@ -1,0 +1,99 @@
+.wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.title {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.02));
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.item:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.name {
+    font-weight: 700;
+}
+
+.small {
+    opacity: 0.8;
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btnDanger {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.btn:disabled,
+.btnDanger:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Line, Station
+from .models import Line, Station, FavoriteRoute
 
 class LineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,4 +10,11 @@ class StationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Station
         fields = "__all__"
+        
+class FavoriteRouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteRoute
+        fields = "__all__"
+        read_only_fields = ["id", "user", "created_at"]
+
 

@@ -41,12 +41,24 @@ class Departure(models.Model):
     def __str__(self):
         return f"{self.line.name} - {self.time}"
     
-class FavoriteLine(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, on_delete=models.CASCADE)
+class FavoriteRoute(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_routes")
+    name = models.CharField(max_length=120)
+    from_text = models.CharField(max_length=200)
+    to_text = models.CharField(max_length=200)
+
+    from_lat = models.FloatField()
+    from_lon = models.FloatField()
+    to_lat = models.FloatField()
+    to_lon = models.FloatField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.user.username} - {self.line.name}"
+        return f"{self.user.username} - {self.name}"
 
 class TrafficNotice(models.Model):
     line = models.ForeignKey(Line, on_delete=models.CASCADE, related_name="notices")

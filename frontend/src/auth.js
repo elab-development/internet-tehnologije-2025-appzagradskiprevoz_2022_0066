@@ -1,4 +1,4 @@
-import { API_BASE } from "../services/api";
+import { API_BASE } from "./services/api";
 
 
 export function getToken() {

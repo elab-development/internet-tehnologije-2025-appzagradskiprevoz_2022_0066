@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./Stations.module.css";
+import { API_BASE } from "../services/api";
 
 export default function Stations(){
     const[stations, setStations] = useState([]);
     const[error, setError] = useState("");
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/stations/")
+        fetch(`${API_BASE}/stations/`)
          .then((res) => {
             if(!res.ok) throw new Error("Ne mogu da se ucitaju stranice!");
             return res.json();

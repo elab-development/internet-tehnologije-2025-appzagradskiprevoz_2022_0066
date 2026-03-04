@@ -3,6 +3,7 @@ import styles from "./Lines.module.css";
 import { fetchLineStops } from "../services/backend";
 import { getRouteThroughPoints } from "../services/routing";
 import RouteMap from "../components/RouteMap";
+import { API_BASE } from "../services/api";
 
 
 export default function Lines() {
@@ -16,7 +17,7 @@ export default function Lines() {
 
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/lines/")
+        fetch(`${API_BASE}/lines/`)
             .then((res) => {
                 if (!res.ok) throw new Error("Ne mogu da ucitam linije");
                 return res.json();

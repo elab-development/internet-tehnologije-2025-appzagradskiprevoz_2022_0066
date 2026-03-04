@@ -34,7 +34,7 @@ export default function Favorites() {
             // 1) uzmi plan iz backend-a (preko koordinata iz fav)
             const a = { lat: fav.from_lat, lon: fav.from_lon };
             const b = { lat: fav.to_lat, lon: fav.to_lon };
-            const res = await planRoute(a, b);
+            const res = await planRoute(a, b, fav.from_text, fav.to_text);
             if (res?.error) throw new Error(res.error);
 
             // 2) kroz stanice napravi "uličnu" rutu za mapu

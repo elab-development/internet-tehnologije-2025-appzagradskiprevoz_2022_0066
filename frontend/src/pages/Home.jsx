@@ -68,7 +68,7 @@ export default function Home() {
       setFromPoint(a);
       setToPoint(b);
 
-      const res = await planRoute(a, b);
+      const res = await planRoute(a, b, from, to);
       if (res?.error) throw new Error(res.error);
 
       setPlan(res);

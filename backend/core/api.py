@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Line, Station, LineStop, FavoriteRoute
+from .models import Line, Station, LineStop, FavoriteRoute, RouteHistory
 from rest_framework.permissions import IsAuthenticated
-from .serializers import LineSerializer, StationSerializer, FavoriteRouteSerializer
+from .serializers import LineSerializer, StationSerializer, FavoriteRouteSerializer, RouteHistorySerializer
 from .permissions import IsAdminOrReadOnly
 
 class LineViewSet(viewsets.ModelViewSet):
@@ -48,3 +48,9 @@ class FavoriteRouteViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+class RouteHistoryViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = RouteHistorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return RouteHistory.objects.filter(user=self.request.user).order_by("-created_at")

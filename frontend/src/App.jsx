@@ -8,6 +8,7 @@ import Stations from "./pages/Stations";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Favorites from "./pages/Favorites"
+import History from "./pages/History";
 import "./App.css";
 import { useLocation } from "react-router-dom";
 
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/lines" element={<ProtectedRoute><Lines /></ProtectedRoute>} />
               <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
               <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+              <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </Routes>

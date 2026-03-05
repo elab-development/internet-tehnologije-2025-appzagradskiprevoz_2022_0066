@@ -41,3 +41,11 @@ Swagger UI omogućava testiranje svih API endpointa direktno iz browser-a.
 backend/ - Django REST API
 frontend/ - React aplikacija
 compose.yaml - Docker Compose konfiguracija
+
+## Live Demo
+
+Frontend:
+https://gradskiprevoz-frontend.onrender.com
+
+Backend API:
+https://gradskiprevoz-backend.onrender.com/api/

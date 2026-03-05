@@ -29,7 +29,7 @@ export async function logout() {
 
     if (token) {
         try {
-            await fetch(`${API_BASE}}/auth/logout/`, {
+            await fetch(`${API_BASE}/auth/logout/`, {
                 method: "POST",
                 headers: { Authorization: `Token ${token}` },
             });
@@ -42,7 +42,7 @@ export async function logout() {
 }
 
 export async function LoginUser(email, password) {
-    const res = await fetch(`${API_BASE}}/auth/login/`, {
+    const res = await fetch(`${API_BASE}/auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -62,7 +62,7 @@ export async function LoginUser(email, password) {
 }
 
 export async function RegisterUser(email, password) {
-    const res = await fetch(`${API_BASE}}/auth/register/`, {
+    const res = await fetch(`${API_BASE}/auth/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

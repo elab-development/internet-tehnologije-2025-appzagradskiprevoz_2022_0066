@@ -13,10 +13,8 @@
     #2d1b3d 65%,
     #3b1f5a 100%
   );
-  /* da bude “pun” a ne proziran */
   opacity: 1;
 
-  /* malo “glass” efekta preko mape ako hoćeš */
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 

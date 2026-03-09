@@ -13,13 +13,12 @@ services:
   backend:
     build: ./backend
     environment:
-      DJANGO_DEBUG: "1"
+      DJANGO_DEBUG: "true"
       DB_HOST: db
       DB_NAME: iteh_db
       DB_USER: iteh_user
       DB_PASSWORD: iteh_pass
       DB_PORT: "5432"
-      #za CORS (frontend u dockeru)
       CORS_ALLOWED_ORIGINS: "http://localhost:5173"
     ports:
       - "8000:8000"

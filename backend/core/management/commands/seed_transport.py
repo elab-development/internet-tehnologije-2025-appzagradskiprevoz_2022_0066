@@ -3,7 +3,7 @@ from core.models import Station, Line, LineStop
 
 STATIONS = [
     {"id": 1, "name": "Autokomanda", "latitude": 44.7894, "longitude": 20.4690},
-    {"id": 2, "name": "Slavija", "latitude": 44.8027, "longitude": 20.4660},  # ⚠ ispravio lon (ti si imao grešku)
+    {"id": 2, "name": "Slavija", "latitude": 44.8027, "longitude": 20.4660},
     {"id": 3, "name": "Vukov Spomenik", "latitude": 44.8045, "longitude": 20.4764},
     {"id": 4, "name": "Tašmajdan", "latitude": 44.8076, "longitude": 20.4782},
     {"id": 5, "name": "Skupština", "latitude": 44.8101, "longitude": 20.4693},
@@ -40,7 +40,6 @@ class Command(BaseCommand):
             Station.objects.all().delete()
             self.stdout.write(self.style.WARNING("Deleted existing Station/Line/LineStop rows."))
 
-        # Stations
         for s in STATIONS:
             Station.objects.update_or_create(
                 id=s["id"],
@@ -51,7 +50,6 @@ class Command(BaseCommand):
                 }
             )
 
-        # Lines + LineStops
         for l in LINES:
             line, _ = Line.objects.update_or_create(
                 id=l["id"],

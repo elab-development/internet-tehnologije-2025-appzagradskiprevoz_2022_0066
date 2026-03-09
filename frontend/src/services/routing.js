@@ -21,9 +21,8 @@ export async function getRoute(from, to) {
 export async function getRouteThroughPoints(points) {
   if (!points || points.length < 2) throw new Error("Bar 2 tačke su potrebne.");
 
-  // lagano čišćenje prebliskih tačaka (sprečava glitch)
   const cleaned = [];
-  const EPS = 0.00015; // ~15-20m
+  const EPS = 0.00015; 
   for (const p of points) {
     if (!cleaned.length) cleaned.push(p);
     else {

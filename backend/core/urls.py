@@ -14,7 +14,6 @@ router.register(r"favorite-routes", FavoriteRouteViewSet, basename = "favorite-r
 router.register(r"route-history", RouteHistoryViewSet, basename = "route-history")
 
 
-
 urlpatterns = [
     path("health/", views.health, name="health"),
     path("auth/register/", register, name="register"),

@@ -71,7 +71,7 @@ export async function RegisterUser(email, password) {
     const data = await res.json().catch(() => ({}));
 
     if (!res.ok) {
-        // prikazi backend poruku ako postoji
+        
         const msg =
             data.detail ||
             data.email?.[0] ||

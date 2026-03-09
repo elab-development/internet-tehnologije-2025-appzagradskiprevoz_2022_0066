@@ -134,7 +134,7 @@ export default function Lines() {
                 </div>
             </div>
 
-            {/* DESNO: MAPA */}
+            
             <div className={styles.mapWrapper}>
                 <div className={styles.mapBox}>
                     <RouteMap routeGeoJson={route?.geojson} stations={stations} routeColor = {selectedColor} />

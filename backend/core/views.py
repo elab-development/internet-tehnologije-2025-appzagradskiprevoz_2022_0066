@@ -25,8 +25,6 @@ def api_root(request):
         }
     })
 
-# --------- ROUTE PLANNING (FINAL) ---------
-
 def haversine_m(lat1, lon1, lat2, lon2):
     R = 6371000.0
     p1, p2 = radians(lat1), radians(lat2)
@@ -45,12 +43,7 @@ def nearest_station(lat, lon):
     return best, best_d
 
 def build_line_sequences():
-    """
-    Returns:
-      line_seq[line_id] = [station_id_0, station_id_1, ...] ordered by LineStop.order
-      station_lines[station_id] = set(line_ids that pass through station)
-      pos_in_line[(line_id, station_id)] = index in sequence
-    """
+
     line_seq = {}
     station_lines = defaultdict(set)
     pos_in_line = {}
@@ -70,17 +63,10 @@ def build_line_sequences():
     return line_seq, station_lines, pos_in_line
 
 def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_line):
-    """
-    State: (station_id, line_id) -> you are at station_id riding line_id.
-    Moves:
-      - along same line to neighbors: cost 1 (one stop)
-      - transfer at same station to another line: cost TRANSFER_PENALTY
-    Objective: minimize (#transfers first, then #stops) via penalty trick.
-    """
-    TRANSFER_PENALTY = 1000  # large so transfers are minimized first
+
+    TRANSFER_PENALTY = 1000  
     INF = 10**18
 
-    # initial frontier: from start station, you may board any line that passes through it
     start_lines = list(station_lines.get(start_sid, []))
     end_lines = set(station_lines.get(end_sid, []))
 
@@ -88,8 +74,8 @@ def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_
         return None
 
     dist = defaultdict(lambda: INF)
-    parent = {}  # state -> previous_state
-    parent_action = {}  # state -> ("move"/"transfer", meta)
+    parent = {}  
+    parent_action = {} 
 
     pq = []
     for lid in start_lines:
@@ -109,15 +95,13 @@ def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_
 
         sid, lid = state
 
-        # reached destination station (on any line)
         if sid == end_sid:
             if cost < best_end_cost:
                 best_end_cost = cost
                 best_end_state = state
-            # we can continue but Dijkstra guarantees first time minimal
+       
             break
-
-        # 1) move along same line
+    
         seq = line_seq.get(lid, [])
         idx = pos_in_line.get((lid, sid), None)
         if idx is not None:
@@ -132,7 +116,6 @@ def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_
                         parent_action[nstate] = ("move", None)
                         heapq.heappush(pq, (ncost, nstate))
 
-        # 2) transfer to other lines at same station
         for nlid in station_lines.get(sid, []):
             if nlid == lid:
                 continue
@@ -146,8 +129,7 @@ def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_
 
     if best_end_state is None:
         return None
-
-    # reconstruct state path
+   
     states = []
     cur = best_end_state
     while cur is not None:
@@ -157,21 +139,16 @@ def dijkstra_on_state_graph(start_sid, end_sid, line_seq, station_lines, pos_in_
     return states
 
 def states_to_station_path_and_segments(states, line_seq, pos_in_line):
-    """
-    Convert state path [(sid,lid),...] into:
-      - ordered station_id list without duplicates
-      - segments with proper line + from/to station_ids (in the correct direction)
-    """
+
     if not states:
         return [], []
 
-    # station path (keep consecutive duplicates out)
+ 
     station_ids = []
     for sid, lid in states:
         if not station_ids or station_ids[-1] != sid:
             station_ids.append(sid)
 
-    # segments: whenever line changes in states
     segments = []
     cur_line = states[0][1]
     seg_start_sid = states[0][0]
@@ -180,7 +157,7 @@ def states_to_station_path_and_segments(states, line_seq, pos_in_line):
         sid, lid = states[i]
         prev_sid, prev_lid = states[i-1]
         if lid != cur_line:
-            # close segment on previous line at prev_sid
+          
             segments.append({
                 "line_id": cur_line,
                 "from_station_id": seg_start_sid,
@@ -189,7 +166,7 @@ def states_to_station_path_and_segments(states, line_seq, pos_in_line):
             cur_line = lid
             seg_start_sid = prev_sid
 
-    # close last segment
+ 
     segments.append({
         "line_id": cur_line,
         "from_station_id": seg_start_sid,
@@ -230,7 +207,6 @@ def plan_route(request):
 
     station_ids, segments = states_to_station_path_and_segments(states, line_seq, pos_in_line)
 
-    # enrich segments with line_name and station names
     stations = {s.id: s for s in Station.objects.filter(id__in=station_ids)}
     lines = {l.id: l for l in Line.objects.all()}
 
@@ -252,7 +228,7 @@ def plan_route(request):
             "to_station_id": b,
             "to_station_name": stations[b].name if b in stations else str(b),
         })
-        # === SAVE HISTORY (only for authenticated users) ===
+    
     if request.user.is_authenticated:
         from_text = request.query_params.get("from_text", "")
         to_text = request.query_params.get("to_text", "")
@@ -267,7 +243,6 @@ def plan_route(request):
             to_lon=to_lon,
         )
 
-        # keep only last 10 searches per user
         qs = RouteHistory.objects.filter(user=request.user).order_by("-created_at")
         ids_to_delete = list(qs.values_list("id", flat=True)[10:])
         if ids_to_delete:

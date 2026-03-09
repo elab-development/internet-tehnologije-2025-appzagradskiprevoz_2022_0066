@@ -76,7 +76,6 @@ export default function Home() {
       const pathStations = res.path_stations || [];
       setStations(pathStations);
 
-      // ✅ ulična trasa kroz pravilno sortirane stanice
       if (pathStations.length >= 2) {
         const streetRoute = await getRouteThroughPoints(pathStations);
         setRoute(streetRoute);
@@ -194,7 +193,7 @@ export default function Home() {
               </div>
             )}
 
-            {/* Sačuvaj u omiljene (samo kad postoji plan) */}
+
             {plan && (
               <div className={styles.favoriteRow}>
                 <div className={styles.favoriteCol}>

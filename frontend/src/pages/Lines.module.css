@@ -5,8 +5,8 @@
   padding: 30px 16px;
   align-items: flex-start;
 
-  max-width: 1600px;   /* ili 1400px */
-  margin: 0 auto;      /* centriraj ceo layout */
+  max-width: 1600px;  
+  margin: 0 auto;      
   
 }
 
@@ -101,7 +101,7 @@
 
 .mapWrapper {
   flex: 1;
-  min-width: 500px;   /* KLJUČNO: sprečava overflow u flex layoutu */
+  min-width: 500px; 
 }
 
 .mapBox {

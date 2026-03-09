@@ -31,20 +31,17 @@ export default function Favorites() {
         try {
             setBusyId(fav.id);
 
-            // 1) uzmi plan iz backend-a (preko koordinata iz fav)
             const a = { lat: fav.from_lat, lon: fav.from_lon };
             const b = { lat: fav.to_lat, lon: fav.to_lon };
             const res = await planRoute(a, b, fav.from_text, fav.to_text);
             if (res?.error) throw new Error(res.error);
 
-            // 2) kroz stanice napravi "uličnu" rutu za mapu
             const pathStations = res.path_stations || [];
             let streetRoute = null;
             if (pathStations.length >= 2) {
                 streetRoute = await getRouteThroughPoints(pathStations);
             }
 
-            // 3) vrati se na Home i prosledi šta treba da prikaže
             navigate("/", {
                 state: {
                     favoriteToLoad: {

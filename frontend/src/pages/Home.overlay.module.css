@@ -15,7 +15,6 @@
 .card {
     position: absolute;
     top: 80px;
-    /* prilagodi ako treba */
     left: 20px;
     width: min(400px, calc(100vw - 40px));
     z-index: 10;
